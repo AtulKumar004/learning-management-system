@@ -1,7 +1,10 @@
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
-    <div className="border border-blue-500">
-      hi hjghjgj
-    </div>
+    <Button variant={'outline'} className="border border-blue-500">
+      <Button>Button</Button>
+
+    </Button>
   );
 }
