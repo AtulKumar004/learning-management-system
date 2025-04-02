@@ -1,0 +1,11 @@
+model WatchHistory {
+  id         String   @id @default(uuid())
+  userId     String
+  lessonId   String
+  createdAt  DateTime
+  modifiedAt DateTime
+  state      String
+  lastTime   Int
+
+  @@map("watch_history") // Makes the actual SQL table name watch_history
+}

@@ -1,0 +1,10 @@
+model Category {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  thumbnail   String?
+
+  courses     Course[] // one-to-many with courses
+
+  @@map("categories")
+}

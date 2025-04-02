@@ -1,0 +1,19 @@
+model Quiz {
+  id           String        @id @default(uuid())
+  question     String
+  description  String?
+  explanations String?
+  mark         Int
+  slug         String        @unique
+  options      QuizOption[]
+
+  @@map("quizzes")
+}
+
+model QuizOption {
+  id        String   @id @default(uuid()) // Add ID if not already present
+  text      String
+  isCorrect Boolean
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+}

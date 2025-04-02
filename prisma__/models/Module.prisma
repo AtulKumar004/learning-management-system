@@ -1,0 +1,13 @@
+model Module {
+  id          String         @id @default(uuid())
+  title       String
+  description String?
+  slug        String         @unique
+  status      String
+  duration    Int
+
+  courseModules Course[]
+   lessons Lesson[]
+
+  @@map("modules")
+}

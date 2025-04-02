@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "seed": "tsx scripts/seed.ts",
+    "seed": "tsx prisma/seed.ts",
     "merge:schema": "tsx scripts/merge-schema.ts",
     "prisma:generate": "npm run merge:schema && prisma generate",
     "prisma:migrate": "npm run merge:schema && prisma migrate dev"

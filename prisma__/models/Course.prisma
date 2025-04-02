@@ -1,0 +1,28 @@
+model Course {
+  id          String          @id @default(uuid())
+  title       String
+  subtitle    String?
+  description String?
+  thumbnail   String?
+  price       Float
+  active      Boolean @default(true)
+  instructorId String
+  categoryId   String
+  quizSetId    String?
+  createdOn    DateTime @default(now())
+  modifiedOn   DateTime @updatedAt
+
+  // Relations
+  instructor   User?      @relation(fields: [instructorId], references: [id])
+  category     Category?  @relation(fields: [categoryId], references: [id])
+  quizSet      QuizSet?   @relation(fields: [quizSetId], references: [id])
+
+  courseModules Module[]
+  testimonials  Testimonial[]
+  enrollments   Enrollment[]
+  certificates  Certificate[]
+
+  learning     String[]
+
+  @@map("courses")
+}

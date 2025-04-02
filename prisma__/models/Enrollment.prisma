@@ -1,0 +1,16 @@
+model Enrollment {
+  id              String   @id @default(uuid())
+  enrollmentDate  DateTime
+  completionDate  DateTime?
+  status          String
+  method          String
+  courseId        String
+  studentId       String
+
+  // Optional relations (set later if models exist)
+  course          Course?   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student         User?     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+certificates Certificate[]
+
+  @@map("enrollments")
+}

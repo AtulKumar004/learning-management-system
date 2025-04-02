@@ -1,0 +1,14 @@
+model QuizAssessment {
+  id        String                  @id @default(uuid())
+  mark      Int
+  noc       Int
+  userId    String?
+  courseId  String?
+
+  items     String[]
+
+  @@map("quiz_assessment")
+}
+
+
+

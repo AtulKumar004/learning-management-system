@@ -1,0 +1,262 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model Assessment {
+  id         String              @id @default(uuid())
+  otherMarks Int?
+  items      String[]
+
+  @@map("assessments")
+}
+
+
+
+
+model Category {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  thumbnail   String?
+
+  courses     Course[] // one-to-many with courses
+
+  @@map("categories")
+}
+
+
+model Certificate {
+  id              String   @id @default(uuid())
+  userId          String
+  courseId        String
+  enrollmentId    String
+  certificateLink String
+
+  // Optional relations if needed
+  user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course?     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollment  Enrollment? @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  @@map("certificate")
+}
+
+
+model Course {
+  id          String          @id @default(uuid())
+  title       String
+  subtitle    String?
+  description String?
+  thumbnail   String?
+  price       Float
+  active      Boolean @default(true)
+  instructorId String
+  categoryId   String
+  quizSetId    String?
+  createdOn    DateTime @default(now())
+  modifiedOn   DateTime @updatedAt
+
+  // Relations
+  instructor   User?      @relation(fields: [instructorId], references: [id])
+  category     Category?  @relation(fields: [categoryId], references: [id])
+  quizSet      QuizSet?   @relation(fields: [quizSetId], references: [id])
+
+  courseModules Module[]
+  testimonials  Testimonial[]
+  enrollments   Enrollment[]
+  certificates  Certificate[]
+
+  learning     String[]
+
+  @@map("courses")
+}
+
+model Enrollment {
+  id              String   @id @default(uuid())
+  enrollmentDate  DateTime
+  completionDate  DateTime?
+  status          String
+  method          String
+  courseId        String
+  studentId       String
+
+  // Optional relations (set later if models exist)
+  course          Course?   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  student         User?     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+certificates Certificate[]
+
+  @@map("enrollments")
+}
+
+
+model Lesson {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  duration    Int
+  videoUrl    String
+  published   Boolean
+  slug        String   @unique
+  access      String
+
+  moduleId    String
+  module      Module   @relation(fields: [moduleId], references: [id])
+
+  @@map("lessons")
+}
+
+
+model Live {
+  id           String   @id @default(uuid())
+  title        String
+  description  String?
+  thumbnail    String?
+  videoId      String?
+  slug         String   @unique
+  schedule     DateTime
+  quizId       String?
+  instructorId String?
+ 
+  @@map("lives")
+}
+
+
+model Module {
+  id          String         @id @default(uuid())
+  title       String
+  description String?
+  slug        String         @unique
+  status      String
+  duration    Int
+
+  courseModules Course[]
+   lessons Lesson[]
+
+  @@map("modules")
+}
+
+model QuizAssessment {
+  id        String                  @id @default(uuid())
+  mark      Int
+  noc       Int
+  userId    String?
+  courseId  String?
+
+  items     String[]
+
+  @@map("quiz_assessment")
+}
+
+
+
+
+
+model QuizSet {
+  id          String              @id @default(uuid())
+  title       String
+  description String?
+  mark        Int
+  slug        String              @unique
+  status      String 
+   course Course?          
+
+  @@map("quiz_set")
+}
+
+
+
+
+
+
+model Quiz {
+  id           String        @id @default(uuid())
+  question     String
+  description  String?
+  explanations String?
+  mark         Int
+  slug         String        @unique
+  options      QuizOption[]
+
+  @@map("quizzes")
+}
+
+model QuizOption {
+  id        String   @id @default(uuid()) // Add ID if not already present
+  text      String
+  isCorrect Boolean
+  quizId    String
+  quiz      Quiz     @relation(fields: [quizId], references: [id])
+}
+
+model Report {
+  id                     String   @id @default(uuid())
+  studentId              String
+  courseId               String
+  quizAssessmentId       String
+  totalCompletedLessons  Json // array of lesson IDs
+  totalCompletedModules  Json // array of module IDs
+
+  @@map("reports")
+}
+
+
+model Testimonial {
+  id        String   @id @default(uuid())
+  content   String
+  rating    Int
+  courseId  String
+  userId    String
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@map("testimonials")
+}
+
+
+
+model User {
+  id              String   @id @default(uuid())
+  firstName       String?
+  lastName        String?
+  password        String
+  email           String   @unique
+  phone           String
+  role            String
+  bio             String?
+  profilePicture  String?
+  designation     String?
+  socialTwitter   String?
+  socialLinkedin  String?
+  socialFacebook  String?
+   instructedCourses Course[]
+  certificates Certificate[]
+  enrollments Enrollment[]
+}
+
+
+model WatchHistory {
+  id         String   @id @default(uuid())
+  userId     String
+  lessonId   String
+  createdAt  DateTime
+  modifiedAt DateTime
+  state      String
+  lastTime   Int
+
+  @@map("watch_history") // Makes the actual SQL table name watch_history
+}
+
+
+model LessonProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  lessonId    String
+  createdAt   DateTime @default(now())
+  modifiedAt  DateTime @updatedAt
+  state       String
+  lastTime    Int
+
+  @@map("watches")
+}

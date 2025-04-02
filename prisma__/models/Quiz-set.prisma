@@ -1,0 +1,15 @@
+model QuizSet {
+  id          String              @id @default(uuid())
+  title       String
+  description String?
+  mark        Int
+  slug        String              @unique
+  status      String 
+   course Course?          
+
+  @@map("quiz_set")
+}
+
+
+
+

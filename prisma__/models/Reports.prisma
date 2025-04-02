@@ -1,0 +1,10 @@
+model Report {
+  id                     String   @id @default(uuid())
+  studentId              String
+  courseId               String
+  quizAssessmentId       String
+  totalCompletedLessons  Json // array of lesson IDs
+  totalCompletedModules  Json // array of module IDs
+
+  @@map("reports")
+}

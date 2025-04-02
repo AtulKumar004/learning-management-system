@@ -1,0 +1,9 @@
+model Assessment {
+  id         String              @id @default(uuid())
+  otherMarks Int?
+  items      String[]
+
+  @@map("assessments")
+}
+
+

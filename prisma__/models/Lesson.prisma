@@ -1,0 +1,15 @@
+model Lesson {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  duration    Int
+  videoUrl    String
+  published   Boolean
+  slug        String   @unique
+  access      String
+
+  moduleId    String
+  module      Module   @relation(fields: [moduleId], references: [id])
+
+  @@map("lessons")
+}

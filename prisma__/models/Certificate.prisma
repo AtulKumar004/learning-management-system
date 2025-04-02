@@ -1,0 +1,13 @@
+model Certificate {
+  id              String   @id @default(uuid())
+  userId          String
+  courseId        String
+  enrollmentId    String
+  certificateLink String
+
+  // Optional relations if needed
+  user        User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course?     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  enrollment  Enrollment? @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  @@map("certificate")
+}

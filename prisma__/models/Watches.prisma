@@ -1,0 +1,11 @@
+model LessonProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  lessonId    String
+  createdAt   DateTime @default(now())
+  modifiedAt  DateTime @updatedAt
+  state       String
+  lastTime    Int
+
+  @@map("watches")
+}

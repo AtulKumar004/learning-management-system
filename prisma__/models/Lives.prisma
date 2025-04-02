@@ -1,0 +1,13 @@
+model Live {
+  id           String   @id @default(uuid())
+  title        String
+  description  String?
+  thumbnail    String?
+  videoId      String?
+  slug         String   @unique
+  schedule     DateTime
+  quizId       String?
+  instructorId String?
+ 
+  @@map("lives")
+}
