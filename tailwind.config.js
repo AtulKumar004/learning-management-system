@@ -1,4 +1,11 @@
 import tailwindcssAnimate from "tailwindcss-animate";
+import { createRequire } from 'module';
+import { createRequire } from 'module';
+
+var require = createRequire(import.meta.url);
+var module = { exports: {} };
+
+const require = createRequire(import.meta.url);
 
 const config = {
   darkMode: ["class"],
@@ -101,5 +108,3 @@ const config = {
     plugins: [require("tailwindcss-animate")]
 };
 export default config;
-
-
